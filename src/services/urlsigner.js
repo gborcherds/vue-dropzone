@@ -56,30 +56,21 @@ export default {
       request.open('POST', response.postEndpoint);
       request.onload = function () {
         if (request.status == 201) {
-          var s3Error = (new window.DOMParser()).parseFromString(request.response, "text/xml");
-          console.log(s3Error);
-          var successMsg = s3Error.firstChild.children[0].innerHTML;
           resolve({
             'success': true,
-            'message': successMsg
+            'message': request.response
           })
         } else {
-          var s3Error = (new window.DOMParser()).parseFromString(request.response, "text/xml");
-          console.log(s3Error);
-          var errMsg = s3Error.firstChild.children[0].innerHTML;
           reject({
             'success': false,
-            'message': errMsg + ". Request is marked as resolved when returns as status 201"
+            'message': request.response
           })
         }
       };
       request.onerror = function (err) {
-        var s3Error = (new window.DOMParser()).parseFromString(request.response, "text/xml");
-        console.log(s3Error);
-        var errMsg = s3Error.firstChild.children[1].innerHTML;
         reject({
           'success': false,
-          'message': errMsg
+          'message': request.response
         })
       };
       request.send(fd);
