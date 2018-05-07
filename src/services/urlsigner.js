@@ -57,6 +57,7 @@ export default {
       request.onload = function () {
         if (request.status == 201) {
           var s3Error = (new window.DOMParser()).parseFromString(request.response, "text/xml");
+          console.log(s3Error);
           var successMsg = s3Error.firstChild.children[0].innerHTML;
           resolve({
             'success': true,
@@ -64,6 +65,7 @@ export default {
           })
         } else {
           var s3Error = (new window.DOMParser()).parseFromString(request.response, "text/xml");
+          console.log(s3Error);
           var errMsg = s3Error.firstChild.children[0].innerHTML;
           reject({
             'success': false,
@@ -73,6 +75,7 @@ export default {
       };
       request.onerror = function (err) {
         var s3Error = (new window.DOMParser()).parseFromString(request.response, "text/xml");
+        console.log(s3Error);
         var errMsg = s3Error.firstChild.children[1].innerHTML;
         reject({
           'success': false,
